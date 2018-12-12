@@ -75,8 +75,16 @@ const loss = function(prediction, label) {
 for (var i = 0; i < 10; i++) {
       tf.tidy(
             () => {
-                  optimizer.minimize(() => loss(model.predict(data.input), data.output));
-                  console.log(loss(model.predict(data.input), data.output).print());
+                  // data.input.print();
+                  loss(model.predict(data.input), data.output).print()
+                  // const prediction = model.predict(data.input);
+                  optimizer.minimize(
+                        () => loss(
+                              model.predict(data.input),
+                              data.output
+                        )
+                  );
+                  // console.log(loss(model.predict(data.input), data.output));
             }
       );
 }
