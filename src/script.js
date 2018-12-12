@@ -27,7 +27,7 @@ const data = {
       ])
 };
 
-const learningRate = 0.1;
+const learningRate = 0.25;
 const optimizer = tf.train.sgd(learningRate);
 
 const input = tf.input({
@@ -53,8 +53,11 @@ model.predict(tf.ones([1, 4])).reshape([2, 2]).print();
 
 const loss = (pred, label) => pred.sub(label).square().mean();
 
-for (let i = 0; i < 10; i++) {
-      optimizer.minimize(() => loss(model.predict(data.input), data.output));
-      console.log(loss(model.predict(data.input), data.output).print());
-      // console.log(model.predict(data.input).print());
+for (var i = 0; i < 10; i++) {
+      tf.tidy(
+            () => {
+                  optimizer.minimize(() => loss(model.predict(data.input), data.output));
+                  console.log(loss(model.predict(data.input), data.output).print());
+            }
+      );
 }
