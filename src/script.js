@@ -47,7 +47,7 @@ const layers = [
             activation: "tanh"
       }),
       tf.layers.dense({
-            units: 4
+            units: (2 * 4) + 2 + 4
       })
 ];
 const output = layers[1].apply(layers[0].apply(input));
@@ -57,9 +57,17 @@ const model = tf.model({
       outputs: output
 });
 
-model.predict(tf.ones([1, 4])).reshape([2, 2]).print();
-
-const loss = (pred, label) => pred.sub(label).square().mean();
+const loss = function(prediction, label) {
+      set_values(
+            prediction.slice([0, 0], [1, 2 * 4]),
+            prediction.slice([0, 2 * 4 + 0], [1, 1]),
+            prediction.slice([0, 2 * 4 + 1], [1, 1])
+      );
+      return prediction.slice([0, (2 * 4) + 2], [1, 4])
+            .sub(label)
+            .square()
+            .mean();
+}
 
 for (var i = 0; i < 10; i++) {
       tf.tidy(
