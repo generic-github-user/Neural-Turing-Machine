@@ -1,14 +1,22 @@
-var ntm = tf.ones([2, 2, 2, 2]);
+var ntm = tf.zeros([2, 2, 2, 2]);
 
 const set_values = function(inputs, multiplier, confirm) {
       // ntm = ntm.mul(tf.tensor([
       //       [0, 1],
       //       [1, 0]
       // ]));
-      const new_state = ntm.mul(inputs).mul(multiplier);
+      // inputs.flatten().slice([0], [2]).print()
+      var new_state = tf.tensor([1]);
+      new_state.print();
+      for (var i = 0; i < inputs.size / 2; i++) {
+            new_state = tf.outerProduct(new_state, inputs.flatten().slice([i], [2])).flatten();
+      }
+
+      new_state = new_state.reshape([2, 2, 2, 2]).mul(multiplier);
+      new_state.print();
       return tf.add(
             tf.mul(
-                  new_state,
+                  ntm,
                   tf.sub(tf.scalar(1), confirm)
             ),
             tf.mul(
