@@ -1,5 +1,8 @@
+var dimensions = 4;
+var memory_shape = new Array(dimensions).fill(2);
+
 var ntm = tf.variable(
-      tf.zeros([2, 2, 2, 2]),
+      tf.zeros(memory_shape),
       false
 );
 
@@ -14,7 +17,7 @@ const set_values = function(inputs, multiplier, confirm) {
             new_state = tf.outerProduct(new_state, inputs.flatten().slice([i], [2])).flatten();
       }
 
-      new_state = new_state.reshape([2, 2, 2, 2]).mul(multiplier);
+      new_state = new_state.reshape(memory_shape).mul(multiplier);
       ntm.assign(
             tf.add(
                   tf.mul(
@@ -50,7 +53,7 @@ const layers = [
             activation: "tanh"
       }),
       tf.layers.dense({
-            units: (2 * 4) + 2 + 4
+            units: (2 * dimensions) + 2 + 4
       })
 ];
 const output = layers[1].apply(layers[0].apply(input));
@@ -62,11 +65,11 @@ const model = tf.model({
 
 const loss = function(prediction, label) {
       set_values(
-            prediction.slice([0, 0], [1, 2 * 4]),
-            prediction.slice([0, 2 * 4 + 0], [1, 1]),
-            prediction.slice([0, 2 * 4 + 1], [1, 1])
+            prediction.slice([0, 0], [1, 2 * dimensions]),
+            prediction.slice([0, 2 * dimensions + 0], [1, 1]),
+            prediction.slice([0, 2 * dimensions + 1], [1, 1])
       );
-      return prediction.slice([0, (2 * 4) + 2], [1, 4])
+      return prediction.slice([0, (2 * dimensions) + 2], [1, 4])
             .sub(label)
             .square()
             .mean();
