@@ -12,39 +12,53 @@ const loss = function(prediction, label) {
 }
 
 // Store previous predictions to use when determining input value read from NTM memory
-const last_prediction = tf.variable(tf.zeros([1, 23]), false);
+const last_prediction = tf.variable(tf.zeros([1, 20]), false);
 // Calculate output precition based on inputs and current state of NTM
 const predict = function(inputs) {
       ntm.reset();
 
-      const prediction = model.predict(
-            // Combine value from read head with network inputs
-            tf.concat([
-                  // Value read from memory
-                  ntm.read(
-                        last_prediction.slice([0, 0], [1, rwhl]),
-                        last_prediction.slice([0, rwhl], [1, 1])
-                  ).reshape([1, 1]),
-                  // Network input values
-                  inputs
-            ], 1)
-      );
-      // Write to NTM memory using output of model
-      ntm.write(
-            prediction.slice([0, rwhl + 1], [1, rwhl]),
-            prediction.slice([0, rwhl + 1 + rwhl], [1, 1]),
-            prediction.slice([0, rwhl + 1 + rwhl + 1], [1, 1])
-      );
+      const prediction_ts = [];
 
-      // Update previous prediction
-      last_prediction.assign(prediction);
+      // Loop through each timestep in input series
+      for (var i = 0; i < inputs.shape[0]; i++) {
+            const timestep = inputs.slice([i], [1]);
 
-            last_prediction.assign(prediction);
-      return prediction.slice([0, (rwhl) + 2], [1, 4]);
+            // Timesteps must be processed one at a time
+            const prediction_t = model.predict(
+                  // Combine value from read head with network inputs
+                  tf.concat([
+                        // Network input values
+                        timestep,
+                        // Value read from memory
+                        ntm.read(
+                              // Read controller values
+                              last_prediction.slice([0, 0], [1, rwhl]),
+                              // Multiplier
+                              last_prediction.slice([0, rwhl], [1, 1])
+                        ).reshape([1, 1])
+                  ], 1)
+            );
+
+            // Write to NTM memory using output of model
+            ntm.write(
+                  // Write controller values
+                  prediction_t.slice([0, rwhl + 1], [1, rwhl]),
+                  // Multiplier
+                  prediction_t.slice([0, rwhl + 1 + rwhl], [1, 1]),
+                  // Confirmation
+                  prediction_t.slice([0, rwhl + 1 + rwhl + 1], [1, 1])
+            );
+
+            // Update previous prediction
+            last_prediction.assign(prediction_t);
+
+            prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]));
+      }
+      return tf.stack(prediction_ts);
 }
 
 // Train the model
-for (var i = 0; i < 10; i++) {
+for (var i = 0; i < 100; i++) {
       // Use tf.tidy to reduce memory usage
       tf.tidy(
             () => {

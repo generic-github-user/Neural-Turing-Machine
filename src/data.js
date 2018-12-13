@@ -7,9 +7,11 @@ const data = {
       "input": tf.tensor([
             [1],
             [2],
-            [3]
+            [3],
+            [0]
       ]),
       "output": tf.tensor([
+            [0],
             [1],
             [2],
             [3]

@@ -2,7 +2,7 @@
 // TensorFlow.js model creation code using high-level layers API
 
 // Learning rate for optimizer
-const learningRate = 0.25;
+const learningRate = 0.1;
 // Optimizer to train model with
 const optimizer = tf.train.sgd(learningRate);
 
@@ -19,7 +19,7 @@ const layers = [
       }),
       // Hidden layer 2
       tf.layers.dense({
-            units: rwhl + 1 + rwhl + 2 + 4
+            units: rwhl + 1 + rwhl + 2 + data.input.shape[1]
       })
 ];
 // Define flow of data between layers of network
