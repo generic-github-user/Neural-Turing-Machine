@@ -21,14 +21,19 @@ const loss = function(prediction, label) {
             .square().mean();
 }
 
+// Store previous predictions to use when determining input value read from NTM memory
 const last_prediction = tf.variable(tf.zeros([1, 23]), false);
+// Calculate output precition based on inputs and current state of NTM
 const predict = function(inputs) {
       const prediction = model.predict(
+            // Combine value from read head with network inputs
             tf.concat([
+                  // Value read from memory
                   ntm.read(
                         last_prediction.slice([0, 0], [1, rwhl]),
                         last_prediction.slice([0, rwhl], [1, 1])
                   ).reshape([1, 1]),
+                  // Network input values
                   inputs
             ], 1)
       );
@@ -39,7 +44,9 @@ const predict = function(inputs) {
             prediction.slice([0, rwhl + 1 + rwhl + 1], [1, 1])
       );
 
+      // Update previous prediction
       last_prediction.assign(prediction);
+
       return prediction.slice([0, (rwhl) + 2], [1, 4]);
 }
 
