@@ -3,3 +3,4 @@
 
 var dimensions = 4;
 var memory_shape = new Array(dimensions).fill(2);
+var rwhl = 2 * dimensions;

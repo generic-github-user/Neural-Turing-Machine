@@ -21,15 +21,26 @@ const loss = function(prediction, label) {
             .square().mean();
 }
 
+const last_prediction = tf.variable(tf.zeros([1, 23]), false);
 const predict = function(inputs) {
-      const prediction = model.predict(inputs);
+      const prediction = model.predict(
+            tf.concat([
+                  ntm.read(
+                        last_prediction.slice([0, 0], [1, rwhl]),
+                        last_prediction.slice([0, rwhl], [1, 1])
+                  ).reshape([1, 1]),
+                  inputs
+            ], 1)
+      );
       // Write to NTM memory using output of model
       ntm.write(
-            prediction.slice([0, 0], [1, 2 * dimensions]),
-            prediction.slice([0, 2 * dimensions + 0], [1, 1]),
-            prediction.slice([0, 2 * dimensions + 1], [1, 1])
+            prediction.slice([0, rwhl + 1], [1, rwhl]),
+            prediction.slice([0, rwhl + 1 + rwhl], [1, 1]),
+            prediction.slice([0, rwhl + 1 + rwhl + 1], [1, 1])
       );
-      return prediction.slice([0, (2 * dimensions) + 2], [1, 4]);
+
+      last_prediction.assign(prediction);
+      return prediction.slice([0, (rwhl) + 2], [1, 4]);
 }
 
 // Train the model

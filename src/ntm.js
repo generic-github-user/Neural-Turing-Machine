@@ -42,7 +42,9 @@ ntm.form = function(values, multiplier) {
 }
 
 ntm.read = function(inputs, multiplier) {
-      return ntm.memory.mul(ntm.form(inputs).mul(multiplier)).mean();
+      return ntm.memory.mul(
+            ntm.form(inputs, multiplier)
+      ).mean();
 }
 
 // Set values of memory system for Neural Turing Machine using write head input values, global multiplier, and a confirmation value
