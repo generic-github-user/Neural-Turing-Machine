@@ -1,37 +1,3 @@
-var dimensions = 4;
-var memory_shape = new Array(dimensions).fill(2);
-
-var ntm = tf.variable(
-      tf.zeros(memory_shape),
-      false
-);
-
-const set_values = function(inputs, multiplier, confirm) {
-      // ntm = ntm.mul(tf.tensor([
-      //       [0, 1],
-      //       [1, 0]
-      // ]));
-      // inputs.flatten().slice([0], [2]).print()
-      var new_state = tf.tensor([1]);
-      for (var i = 0; i < inputs.size / 2; i++) {
-            new_state = tf.outerProduct(new_state, inputs.flatten().slice([i], [2])).flatten();
-      }
-
-      new_state = new_state.reshape(memory_shape).mul(multiplier);
-      ntm.assign(
-            tf.add(
-                  tf.mul(
-                        ntm,
-                        tf.sub(tf.scalar(1), confirm)
-                  ),
-                  tf.mul(
-                        new_state,
-                        confirm
-                  )
-            )
-      );
-}
-
 const data = {
       "input": tf.tensor([
             [1, 2, 3, 4]
@@ -64,7 +30,7 @@ const model = tf.model({
 });
 
 const loss = function(prediction, label) {
-      set_values(
+      ntm.set_values(
             prediction.slice([0, 0], [1, 2 * dimensions]),
             prediction.slice([0, 2 * dimensions + 0], [1, 1]),
             prediction.slice([0, 2 * dimensions + 1], [1, 1])
