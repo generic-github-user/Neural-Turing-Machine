@@ -18,7 +18,7 @@ ntm.memory = tf.variable(
 );
 
 // Set values of memory system for Neural Turing Machine
-ntm.set_values = function(inputs, multiplier, confirm) {
+ntm.write = function(inputs, multiplier, confirm) {
       // ntm = ntm.mul(tf.tensor([
       //       [0, 1],
       //       [1, 0]

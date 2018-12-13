@@ -11,7 +11,7 @@ const data = {
 };
 
 const loss = function(prediction, label) {
-      ntm.set_values(
+      ntm.write(
             prediction.slice([0, 0], [1, 2 * dimensions]),
             prediction.slice([0, 2 * dimensions + 0], [1, 1]),
             prediction.slice([0, 2 * dimensions + 1], [1, 1])
