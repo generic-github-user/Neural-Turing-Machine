@@ -12,7 +12,7 @@ const loss = function(prediction, label) {
 }
 
 // Store previous predictions to use when determining input value read from NTM memory
-const last_prediction = tf.variable(tf.zeros([1, 20]), false);
+var last_prediction = tf.zeros([1, 20]);
 // Calculate output precition based on inputs and current state of NTM
 const predict = function(inputs) {
       ntm.reset();
@@ -50,8 +50,7 @@ const predict = function(inputs) {
             );
 
             // Update previous prediction
-            last_prediction.assign(prediction_t);
-
+            last_prediction = tf.keep(prediction_t);
             prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]));
       }
       return tf.stack(prediction_ts);

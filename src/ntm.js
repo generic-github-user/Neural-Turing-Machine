@@ -10,17 +10,10 @@
 const ntm = {};
 
 // Create mutable tensor to store data for NTM memory
-ntm.memory = tf.variable(
-      // Initialize memory with zero values in all cells
-      tf.zeros(memory_shape),
-      // Do not allow optimizers to directly alter the memory values
-      false
-);
+ntm.memory = tf.zeros(memory_shape);
 
 ntm.reset = function() {
-      ntm.memory.assign(
-            tf.zeros(memory_shape)
-      );
+      ntm.memory = tf.zeros(memory_shape);
 }
 
 ntm.form = function(values, multiplier) {
@@ -63,7 +56,7 @@ ntm.write = function(inputs, multiplier, confirm) {
       const new_state = ntm.form(inputs, multiplier);
 
       // Update memory of NTM with new values
-      ntm.memory.assign(
+      ntm.memory =
             // Compute weighted average of current values and new values based on confirm value
             tf.add(
                   tf.mul(
@@ -76,6 +69,5 @@ ntm.write = function(inputs, multiplier, confirm) {
                         new_state,
                         confirm
                   )
-            )
-      );
+            );
 }
