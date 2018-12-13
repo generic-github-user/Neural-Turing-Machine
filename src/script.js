@@ -1,3 +1,6 @@
+// script.js
+// Main code for training model and displaying results
+
 const data = {
       "input": tf.tensor([
             [1, 2, 3, 4]

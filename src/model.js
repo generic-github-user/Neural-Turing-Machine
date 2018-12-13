@@ -1,3 +1,6 @@
+// model.js
+// TensorFlow.js model creation code using high-level layers API
+
 const learningRate = 0.25;
 const optimizer = tf.train.sgd(learningRate);
 
