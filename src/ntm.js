@@ -17,6 +17,12 @@ ntm.memory = tf.variable(
       false
 );
 
+ntm.reset = function() {
+      ntm.memory.assign(
+            tf.zeros(memory_shape)
+      );
+}
+
 ntm.form = function(values, multiplier) {
       // const result = tf.variable(
       //       tf.tensor([1]),

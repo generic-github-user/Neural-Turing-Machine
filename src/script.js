@@ -25,6 +25,8 @@ const loss = function(prediction, label) {
 const last_prediction = tf.variable(tf.zeros([1, 23]), false);
 // Calculate output precition based on inputs and current state of NTM
 const predict = function(inputs) {
+      ntm.reset();
+
       const prediction = model.predict(
             // Combine value from read head with network inputs
             tf.concat([
