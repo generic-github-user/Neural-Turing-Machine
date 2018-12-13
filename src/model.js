@@ -8,7 +8,7 @@ const optimizer = tf.train.sgd(learningRate);
 
 // Input layer of model
 const input = tf.input({
-      shape: [5]
+      shape: [data.input.shape[1] + 1]
 });
 // Hidden layers of neural network (between input and output layers)
 const layers = [

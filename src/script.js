@@ -1,16 +1,6 @@
 // script.js
 // Main code for training model and displaying results
 
-// Training data
-const data = {
-      "input": tf.tensor([
-            [1, 2, 3, 4]
-      ]),
-      "output": tf.tensor([
-            [1, 2, 3, 4]
-      ])
-};
-
 // Loss (cost) function to evaluate the accuracy of the model
 const loss = function(prediction, label) {
       // Calculate loss of network based on predicted values and actual values and return loss
@@ -49,6 +39,7 @@ const predict = function(inputs) {
       // Update previous prediction
       last_prediction.assign(prediction);
 
+            last_prediction.assign(prediction);
       return prediction.slice([0, (rwhl) + 2], [1, 4]);
 }
 
