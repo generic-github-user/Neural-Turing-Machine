@@ -24,7 +24,7 @@ ntm.form = function(values, multiplier) {
       // );
       var result = tf.tensor([1]);
       // Cycle through each pair of write head nodes
-      for (var i = 0; i < values.size / 2; i++) {
+      for (var i = 0; i < values.size; i += 2) {
             // Compute product of all memory inputs
             result = tf.outerProduct(
                         result,
