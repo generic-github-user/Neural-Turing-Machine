@@ -48,6 +48,7 @@ const predict = function(inputs) {
                   prediction_t.slice([0, rwhl + 1 + rwhl + 1], [1, 1])
             );
 
+            last_prediction.dispose();
             // Update previous prediction
             last_prediction = tf.keep(prediction_t);
             prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]).flatten());
@@ -56,7 +57,7 @@ const predict = function(inputs) {
 }
 
 // Train the model
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 10; i++) {
       // Use tf.tidy to reduce memory usage
       tf.tidy(
             () => {
@@ -73,6 +74,7 @@ for (var i = 0; i < 100; i++) {
                         )
                   );
                   // console.log(loss(model.predict(data.input), data.output));
+                  display();
             }
       );
 }
