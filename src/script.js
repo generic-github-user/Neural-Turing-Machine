@@ -57,7 +57,7 @@ const predict = function(inputs) {
 }
 
 // Train the model
-for (var i = 0; i < 10; i++) {
+const train = function() {
       // Use tf.tidy to reduce memory usage
       tf.tidy(
             () => {
@@ -78,3 +78,5 @@ for (var i = 0; i < 10; i++) {
             }
       );
 }
+
+setInterval(train, 1000);

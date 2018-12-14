@@ -1,6 +1,7 @@
 var canvas = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
+canvas.width = window.innerHeight;
 
 // Map one range of numbers to another, given an input value and the two ranges
 // https://stackoverflow.com/a/23202637
