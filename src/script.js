@@ -22,7 +22,6 @@ const predict = function(inputs) {
       // Loop through each timestep in input series
       for (var i = 0; i < inputs.shape[0]; i++) {
             const timestep = inputs.slice([i], [1]);
-
             // Timesteps must be processed one at a time
             const prediction_t = model.predict(
                   // Combine value from read head with network inputs
@@ -51,7 +50,7 @@ const predict = function(inputs) {
 
             // Update previous prediction
             last_prediction = tf.keep(prediction_t);
-            prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]));
+            prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]).flatten());
       }
       return tf.stack(prediction_ts);
 }
