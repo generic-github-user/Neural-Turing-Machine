@@ -19,6 +19,7 @@ const predict = function(inputs) {
       ntm.reset();
 
       const prediction_ts = [];
+      memory = [];
 
       // Loop through each timestep in input series
       for (var i = 0; i < inputs.shape[0]; i++) {
@@ -53,9 +54,10 @@ const predict = function(inputs) {
             // Update previous prediction
             last_prediction = tf.keep(prediction_t);
             prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]).flatten());
+
+            // Get values from NTM memory
+            memory.push(ntm.memory.dataSync());
       }
-      // Get values from NTM memory
-      memory = ntm.memory.dataSync();
       return tf.stack(prediction_ts);
 }
 
