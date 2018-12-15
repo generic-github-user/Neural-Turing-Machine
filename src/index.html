@@ -12,6 +12,8 @@
             Neural Turing Machine Demo
       </title>
 
+      <link rel="stylesheet" href="./lib/icon.css" />
+      <link rel="stylesheet" href="./lib/material.min.css" />
       <link rel="stylesheet" href="./stylesheet.css" />
 </head>
 
@@ -19,12 +21,12 @@
 
 <body>
       <div id="info">
-            <h4>Loss</h4>
-            <h2 id="loss"></h2>
-            <h4>Input</h4>
-            <h2 id="input"></h2>
-            <h4>Output</h4>
-            <h2 id="output"></h2>
+            <h5>Loss</h5>
+            <h4 id="loss"></h4>
+            <h5>Input</h5>
+            <h4 id="input"></h4>
+            <h5>Output</h5>
+            <h4 id="output"></h4>
       </div>
       <canvas id="canvas"></canvas>
 
@@ -35,6 +37,8 @@
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3/dist/tf.min.js"></script>
       <!-- jQuery | https://jquery.com/ -->
       <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+      <!-- Material Design Lite | https://getmdl.io/ -->
+      <script defer src="./lib/material.min.js"></script>
 
       <!-- Program code -->
       <script type="text/javascript" src="./data.js"></script>
