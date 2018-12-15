@@ -12,8 +12,6 @@ const map = function(num, in_min, in_max, out_min, out_max) {
 }
 
 const display = function() {
-      // Get values from NTM memory
-      var memory = ntm.memory.dataSync();
       // Find minimum and maximum values of memory for range mapping
       var min = Math.min(...memory);
       var max = Math.max(...memory);

@@ -57,19 +57,17 @@ ntm.write = function(inputs, multiplier, confirm) {
 
       // Update memory of NTM with new values
       ntm.memory =
-            tf.keep(
-                  // Compute weighted average of current values and new values based on confirm value
-                  tf.add(
-                        tf.mul(
-                              // Current state of NTM memory
-                              ntm.memory,
-                              tf.sub(tf.scalar(1), confirm)
-                        ),
-                        tf.mul(
-                              // Updated state based on output of controller network
-                              new_state,
-                              confirm
-                        )
+            // Compute weighted average of current values and new values based on confirm value
+            tf.add(
+                  tf.mul(
+                        // Current state of NTM memory
+                        ntm.memory,
+                        tf.sub(tf.scalar(1), confirm)
+                  ),
+                  tf.mul(
+                        // Updated state based on output of controller network
+                        new_state,
+                        confirm
                   )
             );
 }
