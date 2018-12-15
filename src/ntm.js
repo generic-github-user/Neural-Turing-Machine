@@ -33,17 +33,15 @@ ntm.form = function(values, multiplier) {
       }
       result = result
             // Shape updated memory value tensor to match NTM memory
-            .reshape(memory_shape)
-            // Multiply by multiplier node value
-            .mul(multiplier);
+            .reshape(memory_shape);
 
       return result;
 }
 
 ntm.read = function(inputs, multiplier) {
       return ntm.memory.mul(
-            ntm.form(inputs, multiplier)
-      ).mean();
+            ntm.form(inputs)
+      ).mean().mul(tf.scalar(1));
 }
 
 // Set values of memory system for Neural Turing Machine using write head input values, global multiplier, and a confirmation value
@@ -53,7 +51,10 @@ ntm.write = function(inputs, multiplier, confirm) {
       //       [1, 0]
       // ]));
       // inputs.flatten().slice([0], [2]).print()
-      const new_state = ntm.form(inputs, multiplier);
+      const new_state = ntm.form(inputs)
+            // Multiply by multiplier node value
+            .mul(multiplier)
+            .mul(tf.scalar(1));
 
       // Update memory of NTM with new values
       ntm.memory =

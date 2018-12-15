@@ -33,9 +33,7 @@ const predict = function(inputs) {
                         // Value read from memory
                         ntm.read(
                               // Read controller values
-                              last_prediction.slice([0, 0], [1, rwhl]),
-                              // Multiplier
-                              last_prediction.slice([0, rwhl], [1, 1])
+                              last_prediction.slice([0, 0], [1, rwhl])
                         ).reshape([1, 1])
                   ], 1)
             );
@@ -43,17 +41,17 @@ const predict = function(inputs) {
             // Write to NTM memory using output of model
             ntm.write(
                   // Write controller values
-                  prediction_t.slice([0, rwhl + 1], [1, rwhl]),
+                  prediction_t.slice([0, rwhl], [1, rwhl]),
                   // Multiplier
-                  prediction_t.slice([0, rwhl + 1 + rwhl], [1, 1]),
+                  prediction_t.slice([0, rwhl + rwhl], [1, 1]),
                   // Confirmation
-                  prediction_t.slice([0, rwhl + 1 + rwhl + 1], [1, 1])
+                  prediction_t.slice([0, rwhl + rwhl + 1], [1, 1])
             );
 
             last_prediction.dispose();
             // Update previous prediction
             last_prediction = tf.keep(prediction_t);
-            prediction_ts.push(prediction_t.slice([0, rwhl + 1 + rwhl + 2], [1, data.input.shape[1]]).flatten());
+            prediction_ts.push(prediction_t.slice([0, rwhl + rwhl + 2], [1, data.input.shape[1]]).flatten());
 
             // Get values from NTM memory
             memory.push(ntm.memory.dataSync());
