@@ -1,3 +1,6 @@
+// visualization.js
+// Handles displaying of data in Neural Turing Machine memory
+
 // Set up canvas
 var canvas = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
