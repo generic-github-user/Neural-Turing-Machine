@@ -14,12 +14,12 @@ const input = tf.input({
 const layers = [
       // Hidden layer 1
       tf.layers.dense({
-            units: 4,
+            units: output_size,
             activation: "tanh"
       }),
       // Hidden layer 2
       tf.layers.dense({
-            units: rwhl + 1 + rwhl + 2 + data.input.shape[1]
+            units: output_size
       })
 ];
 // Define flow of data between layers of network
