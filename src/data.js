@@ -1,6 +1,8 @@
 // data.js
 // Training data for Neural Turing Machine
 
+"use strict";
+
 // Training data
 const data = {
       // Size of all timesteps must match

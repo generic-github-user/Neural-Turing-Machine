@@ -1,6 +1,8 @@
 // ntm.js
 // Functions for interacting with the memory system of the Neural Turing Machine
 
+"use strict";
+
 // const ntm = class {
 //       constructor(config) {
 //             this.data = new Array(128);

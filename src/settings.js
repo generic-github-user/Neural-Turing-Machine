@@ -1,6 +1,8 @@
 // settings.js
 // Settings for Neural Turing Machine and memory system
 
+"use strict";
+
 var dimensions = 3;
 var memory_shape = new Array(dimensions).fill(2);
 var rwhl = 2 * dimensions;

@@ -1,6 +1,8 @@
 // script.js
 // Main code for training model and displaying results
 
+"use strict";
+
 // Loss (cost) function to evaluate the accuracy of the model
 const loss = function(prediction, label) {
       // Calculate loss of network based on predicted values and actual values and return loss

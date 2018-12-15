@@ -1,6 +1,8 @@
 // model.js
 // TensorFlow.js model creation code using high-level layers API
 
+"use strict";
+
 // Learning rate for optimizer
 const learningRate = 0.1;
 // Optimizer to train model with
