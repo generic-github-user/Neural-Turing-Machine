@@ -4,7 +4,7 @@
 "use strict";
 
 // Set up canvas
-var canvas = document.querySelector("#canvas");
+var canvas = $("#canvas")[0];
 var ctx = canvas.getContext("2d");
 // Set canvas dimensions
 canvas.width = window.innerWidth;

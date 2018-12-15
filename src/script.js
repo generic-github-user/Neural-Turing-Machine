@@ -26,8 +26,8 @@ const predict = function(inputs) {
       // Loop through each timestep in input series
       for (var i = 0; i < inputs.shape[0]; i++) {
             const timestep = inputs.slice([i], [1]);
-            // Timesteps must be processed one at a time
-            const prediction_t = model.predict(
+
+            var input =
                   // Combine value from read head with network inputs
                   tf.concat([
                         // Network input values
@@ -37,8 +37,12 @@ const predict = function(inputs) {
                               // Read controller values
                               last_prediction.slice([0, 0], [1, rwhl])
                         ).reshape([1, 1])
-                  ], 1)
-            );
+                  ], 1);
+            $("#input").text(input.toString());
+
+            // Timesteps must be processed one at a time
+            const prediction_t = model.predict(input);
+            $("#output").text(prediction_t.toString());
 
             // Write to NTM memory using output of model
             ntm.write(
@@ -68,7 +72,7 @@ const train = function() {
             () => {
                   // data.input.print();
                   // Log loss value to console
-                  loss(predict(data.input), data.output).print()
+                  $("#loss").text(loss(predict(data.input), data.output).dataSync());
                   // const prediction = model.predict(data.input);
                   optimizer.minimize(
                         () => loss(
